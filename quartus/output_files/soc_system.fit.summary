@@ -1,0 +1,21 @@
+Fitter Status : Successful - Tue Jun 25 08:34:49 2013
+Quartus II 64-Bit Version : 13.0.0 Build 156 04/24/2013 SJ Full Version
+Revision Name : soc_system
+Top-level Entity Name : c5sx_soc
+Family : Cyclone V
+Device : 5CSXFC6D6F31C8ES
+Timing Models : Preliminary
+Logic utilization (in ALMs) : 4,634 / 41,910 ( 11 % )
+Total registers : 7109
+Total pins : 182 / 499 ( 36 % )
+Total virtual pins : 0
+Total block memory bits : 61,534 / 5,662,720 ( 1 % )
+Total DSP Blocks : 0 / 112 ( 0 % )
+Total HSSI RX PCSs : 0 / 9 ( 0 % )
+Total HSSI PMA RX Deserializers : 0 / 9 ( 0 % )
+Total HSSI PMA RX ATT Deserializers : 0
+Total HSSI TX PCSs : 0 / 9 ( 0 % )
+Total HSSI PMA TX Serializers : 0 / 9 ( 0 % )
+Total HSSI PMA TX ATT Serializers : 0 / 9 ( 0 % )
+Total PLLs : 1 / 15 ( 7 % )
+Total DLLs : 1 / 4 ( 25 % )
