@@ -235,14 +235,14 @@ QUARTUS_RBF := $(patsubst %.sof,%.rbf,$(QUARTUS_SOF))
 #
 
 $(QUARTUS_RBF): %.rbf: %.sof
-	quartus_cpf -c -o bitstream_compression=on $< $@
+	quartus_cpf -c -o bitstream_compression=off $< $@
 
 .PHONY: rbf
 rbf: $(QUARTUS_RBF)
 
 .PHONY: create_rbf
 create_rbf:
-	quartus_cpf -c -o bitstream_compression=on $(QUARTUS_SOF) $(QUARTUS_RBF)
+	quartus_cpf -c -o bitstream_compression=off $(QUARTUS_SOF) $(QUARTUS_RBF)
 
 ################################################
 
