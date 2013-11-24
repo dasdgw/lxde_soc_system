@@ -256,7 +256,7 @@ QUARTUS_PGM_STAMP := $(call get_stamp_target,quartus_pgm)
 
 # FPGA Board Device Index. Default to 2 since this is the most
 #  common setting for dev board
-BOARD_DEVICE_INDEX ?= 2
+BOARD_DEVICE_INDEX ?= 1
 
 define quartus_pgm_sof
 jtagconfig
