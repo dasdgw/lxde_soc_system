@@ -541,7 +541,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga_b[3]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga_b[2]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga_b[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga_b[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga_balnk_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga_blank_n
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga_clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga_g[7]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vga_g[6]
@@ -571,7 +571,7 @@ set_location_assignment PIN_AA24 -to vga_g[5]
 set_location_assignment PIN_AB25 -to vga_g[6]
 set_location_assignment PIN_AE27 -to vga_g[7]
 set_location_assignment PIN_W20 -to vga_clk
-set_location_assignment PIN_AH3 -to vga_balnk_n
+set_location_assignment PIN_AH3 -to vga_blank_n
 set_location_assignment PIN_AE28 -to vga_b[0]
 set_location_assignment PIN_Y23 -to vga_b[1]
 set_location_assignment PIN_Y24 -to vga_b[2]
