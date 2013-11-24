@@ -19,6 +19,11 @@
          value = "11";
          type = "int";
       }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
    }
    element alt_vip_vfr_vga
    {
@@ -26,6 +31,11 @@
       {
          value = "10";
          type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
       }
    }
    element jtag_uart.avalon_jtag_slave
@@ -72,12 +82,25 @@
          type = "String";
       }
    }
+   element rgb_matrix_0.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "8192";
+         type = "String";
+      }
+   }
    element button_pio
    {
       datum _sortIndex
       {
          value = "6";
          type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
       }
    }
    element clk_0
@@ -94,6 +117,11 @@
       {
          value = "13";
          type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
       }
    }
    element sysid_qsys.control_slave
@@ -116,6 +144,11 @@
          value = "5";
          type = "int";
       }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
    }
    element dipsw_pio.external_connection
    {
@@ -127,6 +160,11 @@
    }
    element hps_0.f2h_axi_slave
    {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
       datum baseAddress
       {
          value = "0";
@@ -148,6 +186,11 @@
          value = "9";
          type = "int";
       }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
    }
    element jtag_uart
    {
@@ -156,6 +199,11 @@
          value = "7";
          type = "int";
       }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
    }
    element led_pio
    {
@@ -163,6 +211,11 @@
       {
          value = "4";
          type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
       }
    }
    element master_non_sec
@@ -180,6 +233,11 @@
          value = "2";
          type = "int";
       }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
    }
    element pll_stream
    {
@@ -188,18 +246,18 @@
          value = "12";
          type = "int";
       }
-   }
-   element led_pio.s1
-   {
-      datum _lockedAddress
+      datum sopceditor_expanded
       {
          value = "1";
          type = "boolean";
       }
-      datum baseAddress
+   }
+   element rgb_matrix_0
+   {
+      datum _sortIndex
       {
-         value = "65600";
-         type = "String";
+         value = "14";
+         type = "int";
       }
    }
    element dipsw_pio.s1
@@ -212,6 +270,19 @@
       datum baseAddress
       {
          value = "65664";
+         type = "String";
+      }
+   }
+   element led_pio.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "65600";
          type = "String";
       }
    }
@@ -234,6 +305,11 @@
       {
          value = "3";
          type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
       }
    }
 }
@@ -286,6 +362,16 @@
  <interface
    name="clock_bridge_65_out_clk"
    internal="clock_bridge_65.out_clk"
+   type="clock"
+   dir="start" />
+ <interface
+   name="rgb_matrix_0_conduit_end"
+   internal="rgb_matrix_0.conduit_end"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rgb_matrix_0_clock_source"
+   internal="rgb_matrix_0.clock_source"
    type="clock"
    dir="start" />
  <module kind="clock_source" version="13.1" enabled="1" name="clk_0">
@@ -924,7 +1010,7 @@
   <parameter name="gui_dsm_out_sel" value="1st_order" />
   <parameter name="gui_use_locked" value="true" />
   <parameter name="gui_en_adv_params" value="false" />
-  <parameter name="gui_number_of_clocks" value="2" />
+  <parameter name="gui_number_of_clocks" value="3" />
   <parameter name="gui_multiply_factor" value="1" />
   <parameter name="gui_frac_multiply_factor" value="1" />
   <parameter name="gui_divide_factor_n" value="1" />
@@ -947,7 +1033,7 @@
   <parameter name="gui_actual_phase_shift1" value="0" />
   <parameter name="gui_duty_cycle1" value="50" />
   <parameter name="gui_cascade_counter2" value="false" />
-  <parameter name="gui_output_clock_frequency2" value="100.0" />
+  <parameter name="gui_output_clock_frequency2" value="10.0" />
   <parameter name="gui_divide_factor_c2" value="1" />
   <parameter name="gui_actual_output_clock_frequency2" value="0 MHz" />
   <parameter name="gui_ps_units2" value="ps" />
@@ -1122,6 +1208,10 @@
   <parameter name="DERIVED_CLOCK_RATE" value="65000000" />
   <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
+ </module>
+ <module kind="rgb_matrix" version="0.9.4" enabled="1" name="rgb_matrix_0">
+  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_CLOCK_SINK_CLOCK_RATE" value="10000000" />
  </module>
  <connection
    kind="clock"
@@ -1417,6 +1507,39 @@
    version="13.1"
    start="clk_0.clk"
    end="hps_0.f2h_axi_clock" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="master_non_sec.master"
+   end="rgb_matrix_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x2000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="hps_0.h2f_lw_axi_master"
+   end="rgb_matrix_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x2000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="clock"
+   version="13.1"
+   start="clk_0.clk"
+   end="rgb_matrix_0.clock" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="rgb_matrix_0.reset" />
+ <connection
+   kind="clock"
+   version="13.1"
+   start="pll_stream.outclk2"
+   end="rgb_matrix_0.clock_sink" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>
