@@ -101,9 +101,12 @@ module c5sx_soc(
    input          clk_50m_fpga,        //2.5V    //50MHz (2nd copy to max) 
 	input          clk_top1,            //2.5V    //156.25 MHz adjustable
    input          clk_bot1,            //1.5V    //100 MHz ajustable
-	input          fpga_resetn,          //2.5V    //FPGA Reset Pushbutton	
+// PIN AD27 DIFFIO_TX_R5N/DEV_CLRN
+// unused?
+input          fpga_resetn,          //2.5V    //FPGA Reset Pushbutton	
 
 	//////////////////// SiLabs Clock Generator I/F 	///////////////////  	   	   	   	   	   	
+// unused?
    output   wire  clk_i2c_sclk,             // I2C Clock 
    inout    wire  clk_i2c_sdat,             // I2C Data 
              
@@ -314,8 +317,8 @@ wire [7:0]  vga_color;
         .hps_0_hps_io_hps_io_gpio_inst_GPIO56  (hps_0_hps_io_hps_io_gpio_inst_GPIO56),  //                .hps_io_gpio_inst_GPIO56
         .hps_0_hps_io_hps_io_gpio_inst_GPIO61  (hps_0_hps_io_hps_io_gpio_inst_GPIO61),  //                .hps_io_gpio_inst_GPIO61
         .hps_0_hps_io_hps_io_gpio_inst_GPIO62  (hps_0_hps_io_hps_io_gpio_inst_GPIO62),  //                .hps_io_gpio_inst_GPIO62
-        .led_pio_external_connection_in_port   (fpga_led_internal),   						 //    led_pio_external_connection.in_port
-        .led_pio_external_connection_out_port  (fpga_led_internal),  						 //    led_pio_external_connection.out_port		  
+       // .led_pio_external_connection_in_port   (fpga_led_internal),   						 //    led_pio_external_connection.in_port
+        .led_pio_external_connection_export  (user_led_fpga),  						 //    led_pio_external_connection.out_port		  
         .dipsw_pio_external_connection_export  (user_dipsw_fpga),                 		 //  fpga_dipsw_pio.export
         .button_pio_external_connection_export (user_pb_fpga),                			 // fpga_button_pio.export
 		  .hps_0_h2f_reset_reset_n               (hps_fpga_reset_n),		  

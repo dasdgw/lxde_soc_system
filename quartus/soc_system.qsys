@@ -189,19 +189,6 @@
          type = "int";
       }
    }
-   element dipsw_pio.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "65664";
-         type = "String";
-      }
-   }
    element led_pio.s1
    {
       datum _lockedAddress
@@ -212,6 +199,19 @@
       datum baseAddress
       {
          value = "65600";
+         type = "String";
+      }
+   }
+   element dipsw_pio.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "65664";
          type = "String";
       }
    }
@@ -781,7 +781,7 @@
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
   <parameter name="captureEdge" value="false" />
-  <parameter name="direction" value="InOut" />
+  <parameter name="direction" value="Output" />
   <parameter name="edgeType" value="RISING" />
   <parameter name="generateIRQ" value="false" />
   <parameter name="irqType" value="LEVEL" />
