@@ -1,0 +1,2 @@
+{ "" "" "" "Pin memory_oct_rzqin not assigned to an exact location on the device" {  } {  } 0 169086 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "memory_mem*not assigned to an exact location" {  } {  } 0 9999 "" 0 0 "Quartus II" 0 -1 0 ""}
