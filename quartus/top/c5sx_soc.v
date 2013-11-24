@@ -159,7 +159,7 @@ input          fpga_resetn,          //2.5V    //FPGA Reset Pushbutton
    output   wire  [7:0] vga_g,				// Green
    output   wire  [7:0] vga_b,				// Blue	
    output 	wire  vga_blank_n,			// Composite Blank Control
-   output 	wire  vga_sync_n				// Composite Synch Control  	  
+   output 	wire  vga_sync_n,				// Composite Synch Control  	  
 `endif
 
 `ifdef audio
@@ -205,7 +205,8 @@ input          fpga_resetn,          //2.5V    //FPGA Reset Pushbutton
 //   output  wire  fpga_epqc_dclk,           // Data Clock  
 //   output  wire  fpga_epqc_ncso           // Chip Select
    
-
+//  regmatrix
+     output [33:22] GPIO_0
 
 
 );
@@ -338,14 +339,41 @@ wire [7:0]  vga_color;
 // fpga_DDR3
 
         
-		  .clock_bridge_65_out_clk_clk              	  (clk_65)              			 	 // clock_bridge_148_5_out_clk.clk
+		  .clock_bridge_65_out_clk_clk              	  (clk_65),              			 	 // clock_bridge_148_5_out_clk.clk
+.rgb_matrix_0_conduit_end_g1(rgb_matrix_0_conduit_end_g1),  
+.rgb_matrix_0_conduit_end_g2(rgb_matrix_0_conduit_end_g2),  
+.rgb_matrix_0_conduit_end_a(rgb_matrix_0_conduit_end_a),		   
+.rgb_matrix_0_conduit_end_b(rgb_matrix_0_conduit_end_b),   
+.rgb_matrix_0_conduit_end_lat(rgb_matrix_0_conduit_end_lat), 
+.rgb_matrix_0_conduit_end_c(rgb_matrix_0_conduit_end_c),   
+.rgb_matrix_0_conduit_end_oe(rgb_matrix_0_conduit_end_oe),  
+.rgb_matrix_0_conduit_end_r1(rgb_matrix_0_conduit_end_r1),  
+.rgb_matrix_0_conduit_end_r2(rgb_matrix_0_conduit_end_r2),  
+.rgb_matrix_0_conduit_end_b1(rgb_matrix_0_conduit_end_b1),  
+.rgb_matrix_0_conduit_end_b2(rgb_matrix_0_conduit_end_b2),  
+.rgb_matrix_0_clock_source_clk(rgb_matrix_0_clock_source_clk) 
         
-  );
+  
+);
 wire               clk_65;
 wire [7:0]         vid_r,vid_g,vid_b;
 wire               vid_v_sync ;
 wire               vid_h_sync ;
 wire               vid_datavalid;
+
+wire rgb_matrix_0_conduit_end_g1;  
+wire rgb_matrix_0_conduit_end_g2;  
+wire rgb_matrix_0_conduit_end_a;   
+wire rgb_matrix_0_conduit_end_b;	 
+wire rgb_matrix_0_conduit_end_lat;	 
+wire rgb_matrix_0_conduit_end_c;	 
+wire rgb_matrix_0_conduit_end_oe;	 
+wire rgb_matrix_0_conduit_end_r1;  
+wire rgb_matrix_0_conduit_end_r2;  
+wire rgb_matrix_0_conduit_end_b1;  
+wire rgb_matrix_0_conduit_end_b2;  
+wire rgb_matrix_0_clock_source_clk;
+       
 
 assign fan_ctrl = 1'b1;
 
@@ -357,5 +385,17 @@ assign  {vga_b,vga_g,vga_r}   =     {vid_b,vid_g,vid_r};
 assign   vga_vs               =     vid_v_sync;
 assign   vga_hs               =     vid_h_sync;
 
-
+assign GPIO_0 = {rgb_matrix_0_conduit_end_oe,
+                 rgb_matrix_0_clock_source_clk,
+                 rgb_matrix_0_conduit_end_lat,
+                 rgb_matrix_0_conduit_end_c,   	       
+                 rgb_matrix_0_conduit_end_a,
+                 rgb_matrix_0_conduit_end_b,   
+                 rgb_matrix_0_conduit_end_b1,
+                 rgb_matrix_0_conduit_end_r1,
+                 rgb_matrix_0_conduit_end_g1,
+                 rgb_matrix_0_conduit_end_b2,
+                 rgb_matrix_0_conduit_end_r2,
+                 rgb_matrix_0_conduit_end_g2};
+   
 endmodule
