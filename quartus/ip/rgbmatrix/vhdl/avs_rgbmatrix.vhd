@@ -121,7 +121,7 @@ begin
         -- Writing side
         clk_wr => clk,
         wr     => avs_s0_write,
-        waddr  => avs_s0_address,--waddr,
+        waddr  => avs_s0_address(8 downto 0),--waddr,
         input  => avs_s0_writedata ,--rgb,                  --data_incoming,
         -- Reading side
         clk_rd => clk_led,

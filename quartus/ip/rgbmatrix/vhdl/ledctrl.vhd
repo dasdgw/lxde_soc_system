@@ -54,7 +54,7 @@ architecture bhv of ledctrl is
   -- Internal signals
 
   -- Essential state machine signals
-  type STATE_TYPE is (INIT, READ_PIXEL_DATA, INCR_RAM_ADDR, LATCH, INCR_LED_ADDR);
+  type STATE_TYPE is (RESET, INIT, BIT_CNT, READ_PIXEL_DATA, INCR_RAM_ADDR, LATCH, INCR_LED_ADDR);
   signal state, next_state : STATE_TYPE;
 
   -- State machine signals
@@ -80,10 +80,11 @@ begin
   begin
     if(rising_edge(clk)) then
       if(rst = '1') then
-        state      <= INIT;
+        state      <= RESET;
         col_count  <= (others => '0');
         bpp_count  <= (others => '0');
-        s_led_addr <= (others => '1');  -- this inits to 111 because the led_addr is actually used *after* the incoming data is latched by the panel (not while being shifted in), so by then it has been "incremented" to 000
+        --s_led_addr <= (others => '1');  -- this inits to 111 because the led_addr is actually used *after* the incoming data is latched by the panel (not while being shifted in), so by then it has been "incremented" to 000
+        s_led_addr <= (others => '0');
         s_ram_addr <= (others => '0');
         s_rgb1     <= (others => '0');
         s_rgb2     <= (others => '0');
@@ -147,7 +148,14 @@ begin
 
     -- States
     case state is
+      when RESET =>
+        next_state <= INIT;
+        
       when INIT =>
+        next_led_addr <= "111";
+        next_state <= BIT_CNT;
+
+      when BIT_CNT =>
         if(s_led_addr = "111") then
           if(bpp_count = unsigned(to_signed(-2, PIXEL_DEPTH))) then
             next_bpp_count <= (others => '0');
@@ -156,6 +164,7 @@ begin
           end if;
         end if;
         next_state <= READ_PIXEL_DATA;
+
       when READ_PIXEL_DATA =>
         r1 := '0'; g1 := '0'; b1 := '0';  -- Defaults
         r2 := '0'; g2 := '0'; b2 := '0';  -- Defaults
@@ -186,23 +195,26 @@ begin
           next_ram_addr  <= std_logic_vector(unsigned(s_ram_addr) + 1);
           next_col_count <= col_count + 1;  -- update/increment column counter
         else
-          next_state     <= INCR_LED_ADDR;
+          next_state     <= LATCH;
           next_col_count <= (others => '0');  -- reset the column counter
         end if;
+
       when INCR_RAM_ADDR =>
         s_clk_out  <= '1';              -- pulse the output clock
         s_oe       <= '0';              -- enable display
 --        next_ram_addr <= std_logic_vector(unsigned(s_ram_addr) + 1);
         next_state <= READ_PIXEL_DATA;
-      when INCR_LED_ADDR =>
-        -- display is disabled during led_addr (select lines) update
-        next_led_addr <= std_logic_vector(unsigned(s_led_addr) + 1);
 
-        next_state <= LATCH;
       when LATCH =>
         -- display is disabled during latching
         s_lat      <= '1';              -- latch the data
-        next_state <= INIT;             -- restart state machine
+        next_state <= INCR_LED_ADDR;
+
+      when INCR_LED_ADDR =>
+        -- display is disabled during led_addr (select lines) update
+        next_led_addr <= std_logic_vector(unsigned(s_led_addr) + 1);
+        next_state <= BIT_CNT;            -- restart state machine
+
       when others => null;
     end case;
 
