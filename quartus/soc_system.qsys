@@ -260,6 +260,19 @@
          type = "int";
       }
    }
+   element button_pio.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "65728";
+         type = "String";
+      }
+   }
    element dipsw_pio.s1
    {
       datum _lockedAddress
@@ -283,19 +296,6 @@
       datum baseAddress
       {
          value = "65600";
-         type = "String";
-      }
-   }
-   element button_pio.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "65728";
          type = "String";
       }
    }
@@ -1209,7 +1209,7 @@
   <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
  </module>
- <module kind="rgb_matrix" version="0.9.4" enabled="1" name="rgb_matrix_0">
+ <module kind="rgb_matrix" version="0.9.5" enabled="1" name="rgb_matrix_0">
   <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_CLOCK_SINK_CLOCK_RATE" value="10000000" />
  </module>
