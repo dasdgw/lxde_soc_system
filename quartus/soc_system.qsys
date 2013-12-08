@@ -260,6 +260,19 @@
          type = "int";
       }
    }
+   element led_pio.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "65600";
+         type = "String";
+      }
+   }
    element button_pio.s1
    {
       datum _lockedAddress
@@ -283,19 +296,6 @@
       datum baseAddress
       {
          value = "65664";
-         type = "String";
-      }
-   }
-   element led_pio.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "65600";
          type = "String";
       }
    }
@@ -915,7 +915,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="2" />
+  <parameter name="width" value="4" />
   <parameter name="clockRate" value="50000000" />
  </module>
  <module
