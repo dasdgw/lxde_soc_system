@@ -30,10 +30,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.log2;
 
 use work.rgbmatrix_pkg.all;
 
 entity ledctrl is
+  generic (
+    width      : integer  := 32;
+    depth      : integer  := 16;
+    ADDR_WIDTH : positive := 512);
+
   port (
     clk      : in  std_logic;
     rst      : in  std_logic;
@@ -57,7 +63,12 @@ architecture bhv of ledctrl is
   type STATE_TYPE is (RESET, INIT, BIT_CNT, READ_PIXEL_DATA, INCR_RAM_ADDR, LATCH, INCR_LED_ADDR);
   signal state, next_state : STATE_TYPE;
 
-  -- State machine signals
+  -- Derived constants
+--  constant ADDR_WIDTH     : positive := positive(log2(real(NUM_PANELS*width*depth/2)));
+  constant IMG_WIDTH      : positive := width*NUM_PANELS;
+  constant IMG_WIDTH_LOG2 : positive := positive(log2(real(IMG_WIDTH)));
+
+-- State machine signals
   signal col_count, next_col_count            : unsigned(IMG_WIDTH_LOG2 downto 0);
   signal bpp_count, next_bpp_count            : unsigned(PIXEL_DEPTH-1 downto 0);
   signal s_led_addr, next_led_addr            : std_logic_vector(2 downto 0);
@@ -150,10 +161,10 @@ begin
     case state is
       when RESET =>
         next_state <= INIT;
-        
+
       when INIT =>
         next_led_addr <= "111";
-        next_state <= BIT_CNT;
+        next_state    <= BIT_CNT;
 
       when BIT_CNT =>
         if(s_led_addr = "111") then
@@ -213,14 +224,14 @@ begin
       when INCR_LED_ADDR =>
         -- display is disabled during led_addr (select lines) update
         next_led_addr <= std_logic_vector(unsigned(s_led_addr) + 1);
-        next_state <= BIT_CNT;            -- restart state machine
+        next_state    <= BIT_CNT;       -- restart state machine
 
       when others => null;
     end case;
 
     next_rgb1 <= r1 & g1 & b1;
     next_rgb2 <= r2 & g2 & b2;
-    
+
   end process;
-  
+
 end bhv;

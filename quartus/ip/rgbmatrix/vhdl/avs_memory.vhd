@@ -33,6 +33,8 @@ use ieee.numeric_std.all;
 use work.rgbmatrix_pkg.all;
 
 entity avs_memory is
+generic (
+    ADDR_WIDTH : positive := 512);
   port (
     rst    : in  std_logic;
     clk_wr : in  std_logic;

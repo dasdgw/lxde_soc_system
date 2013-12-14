@@ -24,19 +24,25 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.math_real.log2;
+use ieee.math_real.ceil;
 
 use work.rgbmatrix_pkg.all;             -- Constants & Configuration
 
 entity avs_rgbmatrix is
+  generic (
+    width      : integer  := 32;
+    depth      : integer  := 16;
+    ADDR_WIDTH : positive := 10);
   port (
     clk   : in std_logic;
     reset : in std_logic;
 
-    avs_s0_address     : in  std_logic_vector(10 downto 0)  := (others => '0');  --    s0.address
-    avs_s0_read        : in  std_logic                     := '0';  --      .read
+    avs_s0_address     : in  std_logic_vector(ADDR_WIDTH-1 downto 0) := (others => '0');  --    s0.address
+    avs_s0_read        : in  std_logic                               := '0';  --      .read
     avs_s0_readdata    : out std_logic_vector(31 downto 0);  --      .readdata
-    avs_s0_write       : in  std_logic                     := '0';  --      .write
-    avs_s0_writedata   : in  std_logic_vector(31 downto 0) := (others => '0');  --      .writedata
+    avs_s0_write       : in  std_logic                               := '0';  --      .write
+    avs_s0_writedata   : in  std_logic_vector(31 downto 0)           := (others => '0');  --      .writedata
     avs_s0_waitrequest : out std_logic;                      --      .waitreque
 
     clk_led : in  std_logic;
@@ -61,7 +67,9 @@ architecture str of avs_rgbmatrix is
   -- Reset signals
   signal rst, rst_p, jtag_rst_out : std_logic;
 
-  -- Memory signals
+--  constant ADDR_WIDTH : positive := positive(log2(real(NUM_PANELS*width*depth/2)));
+
+-- Memory signals
   signal addr          : std_logic_vector(ADDR_WIDTH-1 downto 0);
   signal data_incoming : std_logic_vector(DATA_WIDTH-1 downto 0);
   signal data_outgoing : std_logic_vector(DATA_WIDTH-1 downto 0);
@@ -88,6 +96,11 @@ begin
 
   -- LED panel controller
   U_LEDCTRL : entity work.ledctrl
+    generic map(
+      width      => width,
+      depth      => depth,
+      ADDR_WIDTH => ADDR_WIDTH
+      )
     port map (
       rst => rst_p,
       --! can't use tck here. tck seems not to be a continues clock
@@ -116,13 +129,18 @@ begin
 
     -- Special memory for the framebuffer
     avs_memory_1 : entity work.avs_memory
+      generic map(
+--      width      => width,
+--      depth      => depth,
+        ADDR_WIDTH => ADDR_WIDTH
+        )
       port map (
         rst    => valid2,
         -- Writing side
         clk_wr => clk,
         wr     => avs_s0_write,
-        waddr  => avs_s0_address(8 downto 0),--waddr,
-        input  => avs_s0_writedata ,--rgb,                  --data_incoming,
+        waddr  => avs_s0_address,       --waddr,
+        input  => avs_s0_writedata,  --rgb,                  --data_incoming,
         -- Reading side
         clk_rd => clk_led,
         addr   => addr,
@@ -131,7 +149,7 @@ begin
 
   end generate avs;
 
-     
 
-  
+
+
 end str;
