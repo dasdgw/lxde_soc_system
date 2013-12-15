@@ -215,14 +215,8 @@ set_interface_property clock_sink SVD_ADDRESS_GROUP ""
 add_interface_port clock_sink clk_led clk Input 1
 
 proc elaborate {} {
-set width_var [ get_parameter_value width]
-set depth_var [ get_parameter_value depth]
-# set ADDR_WIDTH_var [expr { log(expr int(expr { [expr {$width_var * $depth_var} ]/2} ))/log(2)}]
-set ADDR_WIDTH_var1 [expr { [expr {$width_var * $depth_var} ]/2}]
-set ADDR_WIDTH_var2 [expr int($ADDR_WIDTH_var1)]
-# set ADDR_WIDTH_var [expr { log(expr int($ADDR_WIDTH_var1))/log(2)}]
-set ADDR_WIDTH_var [expr { log($ADDR_WIDTH_var2)/log(2)}]
-# set ADDR_WIDTH_var [expr {$width_var * $depth_var} ]
-#    set bytewidth_var [ expr [ get_parameter_value width] /8 ]
-    set_parameter_value ADDR_WIDTH $ADDR_WIDTH_var
+    set width_var [ get_parameter_value width]
+    set depth_var [ get_parameter_value depth]
+    set ADDR_WIDTH_var [expr {log(int($width_var*$depth_var/2))/log(2)}]
+set_parameter_value ADDR_WIDTH $ADDR_WIDTH_var
 }

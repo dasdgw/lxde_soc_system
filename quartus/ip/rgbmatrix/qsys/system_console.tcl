@@ -19,7 +19,7 @@ puts [jtag_debug_sample_clock $mypath]
 puts [master_read_32  $mypath $sysid_base 1]
 puts [master_read_32  $mypath $rgbmatrix_base 1]
 puts [master_write_32  $mypath $rgbmatrix_base 0x0000FFFF]
-puts "commands: cls red set_color <0xXXXXXXXX>"
+puts "commands: cls red set_color <0xXXXXXXXX> corners put_pixel <X> <Y> put_pixel_hps <X> <Y>"
 
 for {set x 0} {$x<$rgbmatrix_size} {incr x $pixel_width} {
     set address [expr $rgbmatrix_base + $x ]

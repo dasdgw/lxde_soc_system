@@ -39,7 +39,7 @@ generic (
     rst    : in  std_logic;
     clk_wr : in  std_logic;
     wr     : in  std_logic;
-    waddr  : in  std_logic_vector(8 downto 0);
+    waddr  : in  std_logic_vector(ADDR_WIDTH-1 downto 0);
     input  : in  std_logic_vector(31 downto 0);
     clk_rd : in  std_logic;
     addr   : in  std_logic_vector(ADDR_WIDTH-1 downto 0);

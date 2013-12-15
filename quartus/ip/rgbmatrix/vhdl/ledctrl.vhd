@@ -64,7 +64,6 @@ architecture bhv of ledctrl is
   signal state, next_state : STATE_TYPE;
 
   -- Derived constants
---  constant ADDR_WIDTH     : positive := positive(log2(real(NUM_PANELS*width*depth/2)));
   constant IMG_WIDTH      : positive := width*NUM_PANELS;
   constant IMG_WIDTH_LOG2 : positive := positive(log2(real(IMG_WIDTH)));
 
