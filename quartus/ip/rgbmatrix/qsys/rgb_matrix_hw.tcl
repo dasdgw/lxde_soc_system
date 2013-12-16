@@ -92,7 +92,7 @@ set_parameter_property ADDR_WIDTH HDL_PARAMETER true
 # 
 # display items
 # 
-
+add_display_item "Description" id text "This ip core controls rgbmatrix 32x16"
 
 # 
 # connection point clock
