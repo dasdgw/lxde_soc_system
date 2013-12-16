@@ -220,3 +220,9 @@ proc elaborate {} {
     set ADDR_WIDTH_var [expr {log(int($width_var*$depth_var/2))/log(2)}]
 set_parameter_value ADDR_WIDTH $ADDR_WIDTH_var
 }
+
+set rel_path /../doc/help.txt
+set comp_path [pwd]
+set full_path $comp_path$rel_path
+
+add_documentation_link "help" $full_path
