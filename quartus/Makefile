@@ -242,7 +242,7 @@ rbf: $(QUARTUS_RBF)
 
 .PHONY: create_rbf
 create_rbf:
-	quartus_cpf -c -o bitstream_compression=off $(QUARTUS_SOF) $(QUARTUS_RBF)
+	quartus_cpf -c -o bitstream_compression=on $(QUARTUS_SOF) $(QUARTUS_RBF)
 
 ################################################
 
