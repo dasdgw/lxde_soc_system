@@ -217,7 +217,7 @@ add_interface_port clock_sink clk_led clk Input 1
 proc elaborate {} {
     set width_var [ get_parameter_value width]
     set depth_var [ get_parameter_value depth]
-    set ADDR_WIDTH_var [expr {log(int($width_var*$depth_var/2))/log(2)}]
+    set ADDR_WIDTH_var [expr {log(int($width_var*$depth_var))/log(2)}]
 set_parameter_value ADDR_WIDTH $ADDR_WIDTH_var
 }
 

@@ -50,7 +50,7 @@ package rgbmatrix_pkg is
                                            -- the number of simultaneous lines (2)
 
   -- Derived constants
-  constant ADDR_WIDTH     : positive := positive(log2(real(NUM_PANELS*PANEL_WIDTH*PANEL_HEIGHT/2)));
+  --constant ADDR_WIDTH     : positive := positive(log2(real(NUM_PANELS*PANEL_WIDTH*PANEL_HEIGHT/2)));
   constant IMG_WIDTH      : positive := PANEL_WIDTH*NUM_PANELS;
   constant IMG_WIDTH_LOG2 : positive := positive(log2(real(IMG_WIDTH)));
 

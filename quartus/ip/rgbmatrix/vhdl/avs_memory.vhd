@@ -42,7 +42,7 @@ generic (
     waddr  : in  std_logic_vector(ADDR_WIDTH-1 downto 0);
     input  : in  std_logic_vector(31 downto 0);
     clk_rd : in  std_logic;
-    addr   : in  std_logic_vector(ADDR_WIDTH-1 downto 0);
+    addr   : in  std_logic_vector(ADDR_WIDTH-2 downto 0);
     output : out std_logic_vector(DATA_WIDTH-1 downto 0)
     );
 end avs_memory;
@@ -54,9 +54,9 @@ architecture bhv of avs_memory is
 
 
   -- Inferred RAM storage signal
-  type ram is array(2**ADDR_WIDTH-1 downto 0) of std_logic_vector(DATA_WIDTH/6-1 downto 0);
+  type ram is array(2**(ADDR_WIDTH-1)-1 downto 0) of std_logic_vector(DATA_WIDTH/6-1 downto 0);
   signal ram1r, ram1g, ram1b : ram := (others => (others => '1'));
-  signal ram2r, ram2g, ram2b : ram;
+  signal ram2r, ram2g, ram2b : ram := (others => (others => '1'));
 
 begin
 
@@ -65,18 +65,20 @@ begin
 
   -- Write process for the memory
   process(clk_wr)
+  variable waddr_int : integer range 0 to 2**(ADDR_WIDTH-1)-1;
   begin
+    waddr_int := to_integer(unsigned(waddr(waddr'high-1 downto 0)));
     if(rising_edge(clk_wr)) then
       if wr = '1' then
 -- store input at the current write address
         if waddr(waddr'high) = '0' then
-          ram1r(to_integer(unsigned(waddr))) <= input(1*PIXEL_DEPTH-1 downto 0);
-          ram1g(to_integer(unsigned(waddr))) <= input(2*PIXEL_DEPTH-1 downto PIXEL_DEPTH);
-          ram1b(to_integer(unsigned(waddr))) <= input(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);
+          ram1r(waddr_int) <= input(1*PIXEL_DEPTH-1 downto 0);
+          ram1g(waddr_int) <= input(2*PIXEL_DEPTH-1 downto PIXEL_DEPTH);
+          ram1b(waddr_int) <= input(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);
         else
-          ram2r(to_integer(unsigned(waddr))) <= input(1*PIXEL_DEPTH-1 downto 0);
-          ram2g(to_integer(unsigned(waddr))) <= input(2*PIXEL_DEPTH-1 downto PIXEL_DEPTH);
-          ram2b(to_integer(unsigned(waddr))) <= input(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);
+          ram2r(waddr_int) <= input(1*PIXEL_DEPTH-1 downto 0);
+          ram2g(waddr_int) <= input(2*PIXEL_DEPTH-1 downto PIXEL_DEPTH);
+          ram2b(waddr_int) <= input(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);
         end if;
       end if;
     end if;

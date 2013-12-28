@@ -70,11 +70,11 @@ architecture str of avs_rgbmatrix is
 --  constant ADDR_WIDTH : positive := positive(log2(real(NUM_PANELS*width*depth/2)));
 
 -- Memory signals
-  signal addr          : std_logic_vector(ADDR_WIDTH-1 downto 0);
+  signal addr          : std_logic_vector(ADDR_WIDTH-2 downto 0);
   signal data_incoming : std_logic_vector(DATA_WIDTH-1 downto 0);
   signal data_outgoing : std_logic_vector(DATA_WIDTH-1 downto 0);
   signal rgb           : std_logic_vector(DATA_WIDTH/6-1 downto 0);
-  signal waddr         : std_logic_vector(ADDR_WIDTH downto 0);
+  signal waddr         : std_logic_vector(ADDR_WIDTH-1 downto 0);
 -- Flags
   signal valid1        : std_logic;
   signal valid2        : std_logic;

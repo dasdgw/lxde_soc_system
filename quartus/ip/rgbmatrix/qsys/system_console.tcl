@@ -1,6 +1,7 @@
 set sysid_base 0x10000
 set rgbmatrix_base 0x2000
-set rgbmatrix_size 0x2000
+# set rgbmatrix_size 0x2000
+set rgbmatrix_size 0x800
 set hps_peripherals_base 0xFF200000
 
 set rgbmatrix_cols 32
@@ -31,9 +32,10 @@ proc cls {} {
     global rgbmatrix_base
     global rgbmatrix_size
     global pixel_width
+    global hps_peripherals_base
     
     for {set x 0} {$x<$rgbmatrix_size} {incr x $pixel_width} {
-	set address [expr $rgbmatrix_base + $x ]
+	set address [expr $hps_peripherals_base + $rgbmatrix_base + $x ]
 	master_write_32  $mypath $address 0x00000000
     }
 }
@@ -105,7 +107,9 @@ proc put_pixel_hps {x y} {
 
 #    set address_x $x
 #    set address_y [expr {32*$y} ]
+
     set address [expr {$hps_peripherals_base + $rgbmatrix_base + [expr { [expr { $x + [expr {$rgbmatrix_cols * $y} ]}] * $pixel_width}]} ]
+#    set address [expr ($hps_peripherals_base + $rgbmatrix_base + (($x + ($rgbmatrix_cols * $y)) * $pixel_width))
     master_write_32  $mypath $address 0x00EF0000
 
 }

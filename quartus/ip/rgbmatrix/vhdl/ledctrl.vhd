@@ -51,7 +51,7 @@ entity ledctrl is
     lat      : out std_logic;
     oe       : out std_logic;
     -- Memory IO
-    addr     : out std_logic_vector(ADDR_WIDTH-1 downto 0);
+    addr     : out std_logic_vector(ADDR_WIDTH-2 downto 0);
     data     : in  std_logic_vector(DATA_WIDTH-1 downto 0)
     );
 end ledctrl;
@@ -71,7 +71,7 @@ architecture bhv of ledctrl is
   signal col_count, next_col_count            : unsigned(IMG_WIDTH_LOG2 downto 0);
   signal bpp_count, next_bpp_count            : unsigned(PIXEL_DEPTH-1 downto 0);
   signal s_led_addr, next_led_addr            : std_logic_vector(2 downto 0);
-  signal s_ram_addr, next_ram_addr            : std_logic_vector(ADDR_WIDTH-1 downto 0);
+  signal s_ram_addr, next_ram_addr            : std_logic_vector(ADDR_WIDTH-2 downto 0);
   signal s_rgb1, next_rgb1, s_rgb2, next_rgb2 : std_logic_vector(2 downto 0);
   signal s_oe, s_lat, s_clk_out               : std_logic;
 begin
