@@ -45,11 +45,6 @@
          value = "1";
          type = "boolean";
       }
-      datum baseAddress
-      {
-         value = "131072";
-         type = "String";
-      }
    }
    element alt_vip_vfr_vga.avalon_slave
    {
@@ -58,11 +53,6 @@
          value = "1";
          type = "boolean";
       }
-      datum baseAddress
-      {
-         value = "256";
-         type = "String";
-      }
    }
    element intr_capturer_0.avalon_slave_0
    {
@@ -70,16 +60,6 @@
       {
          value = "1";
          type = "boolean";
-      }
-      datum _tags
-      {
-         value = "";
-         type = "String";
-      }
-      datum baseAddress
-      {
-         value = "196608";
-         type = "String";
       }
    }
    element rgb_matrix_0.avalon_slave_0
@@ -110,6 +90,11 @@
          value = "0";
          type = "int";
       }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
    }
    element clock_bridge_65
    {
@@ -130,11 +115,6 @@
       {
          value = "1";
          type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "65536";
-         type = "String";
       }
    }
    element dipsw_pio
@@ -165,11 +145,6 @@
          value = "1";
          type = "boolean";
       }
-      datum baseAddress
-      {
-         value = "0";
-         type = "String";
-      }
    }
    element hps_0
    {
@@ -177,6 +152,11 @@
       {
          value = "1";
          type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
       }
    }
    element intr_capturer_0
@@ -225,6 +205,11 @@
          value = "8";
          type = "int";
       }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
    }
    element master_secure
    {
@@ -248,7 +233,7 @@
       }
       datum sopceditor_expanded
       {
-         value = "1";
+         value = "0";
          type = "boolean";
       }
    }
@@ -260,30 +245,12 @@
          type = "int";
       }
    }
-   element led_pio.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "65600";
-         type = "String";
-      }
-   }
    element button_pio.s1
    {
       datum _lockedAddress
       {
          value = "1";
          type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "65728";
-         type = "String";
       }
    }
    element dipsw_pio.s1
@@ -293,10 +260,13 @@
          value = "1";
          type = "boolean";
       }
-      datum baseAddress
+   }
+   element led_pio.s1
+   {
+      datum _lockedAddress
       {
-         value = "65664";
-         type = "String";
+         value = "1";
+         type = "boolean";
       }
    }
    element sysid_qsys
@@ -1209,7 +1179,9 @@
   <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
  </module>
- <module kind="rgb_matrix" version="0.9.5" enabled="1" name="rgb_matrix_0">
+ <module kind="rgb_matrix" version="0.9.51" enabled="1" name="rgb_matrix_0">
+  <parameter name="width" value="32" />
+  <parameter name="depth" value="16" />
   <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_CLOCK_SINK_CLOCK_RATE" value="10000000" />
  </module>
