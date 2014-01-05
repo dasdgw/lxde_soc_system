@@ -1,0 +1,49 @@
+make targets:
+make help > README
+
+*****************************************
+*                                       *
+* Manage QuartusII/QSys design          *
+*                                       *
+*     Copyright (c) 2013                *
+*     All Rights Reserved               *
+*                                       *
+*****************************************
+
+*********************
+* Target: dtb
+*   Generate a device tree blob for this qsys design (alpha)
+*********************
+* Target: dts
+*   Generate a device tree for this qsys design (alpha)
+*********************
+* Target: help
+*   Displays this info (i.e. the available targets)
+*********************
+* Target: preloader
+*   Build Preloader BSP for this design into software/preloader directory
+*********************
+* Target: program_fpga
+*   Quartus program sof to your attached dev board
+*********************
+* Target: program_qspi
+*   Flash program preloader into QSPI Flash
+*********************
+* Target: qsys_edit
+*   Launch QSys GUI
+*********************
+* Target: quartus_edit
+*   Launch Quartus II GUI
+*********************
+* Target: scrub_clean
+*   Restore design to its barebones state
+*********************
+* Target: sof
+*   QSys generate & Quartus compile this design
+*********************
+* Target: tgz
+*   Create a tarball with the barebones source files that comprise this design
+*********************
+* Target: uboot
+*   Build U-Boot into software/preloader directory
+*********************
