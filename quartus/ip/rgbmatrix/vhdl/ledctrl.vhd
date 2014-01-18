@@ -64,8 +64,8 @@ architecture bhv of ledctrl is
   signal state, next_state : STATE_TYPE;
 
   -- Derived constants
-  constant IMG_WIDTH      : positive := width*NUM_PANELS;
-  constant IMG_WIDTH_LOG2 : positive := positive(log2(real(IMG_WIDTH)));
+  constant IMG_WIDTH                          : positive                                                  := width*NUM_PANELS;
+  constant IMG_WIDTH_LOG2                     : positive                                                  := positive(log2(real(IMG_WIDTH)));
 
 -- State machine signals
   signal col_count, next_col_count            : unsigned(IMG_WIDTH_LOG2 downto 0);
@@ -74,6 +74,7 @@ architecture bhv of ledctrl is
   signal s_ram_addr, next_ram_addr            : std_logic_vector(ADDR_WIDTH-2 downto 0);
   signal s_rgb1, next_rgb1, s_rgb2, next_rgb2 : std_logic_vector(2 downto 0);
   signal s_oe, s_lat, s_clk_out               : std_logic;
+  constant shift_ram_addr                     : std_logic_vector(ADDR_WIDTH-2-s_led_addr'length downto 0) := (others => '0');
 begin
 
   -- Breakout internal signals to the output port
@@ -166,13 +167,17 @@ begin
         next_state    <= BIT_CNT;
 
       when BIT_CNT =>
-        if(s_led_addr = "111") then
-          if(bpp_count = unsigned(to_signed(-2, PIXEL_DEPTH))) then
-            next_bpp_count <= (others => '0');
-          else
-            next_bpp_count <= bpp_count + 1;
-          end if;
+--        if(s_led_addr = "111") then
+        if(bpp_count = unsigned(to_signed(-2, PIXEL_DEPTH))) then
+          next_bpp_count <= (others => '0');
+          next_led_addr  <= std_logic_vector(unsigned(s_led_addr) + 1);
+          --next_ram_addr  <= std_logic_vector(resize(((unsigned(s_led_addr)+1)*width), next_ram_addr'length));
+          --next_ram_addr  <= s_led_addr & "000000";
+          next_ram_addr  <= std_logic_vector(unsigned(s_led_addr) + 1) & shift_ram_addr;
+        else
+          next_bpp_count <= bpp_count + 1;
         end if;
+--        end if;
         next_state <= READ_PIXEL_DATA;
 
       when READ_PIXEL_DATA =>
@@ -206,6 +211,10 @@ begin
           next_col_count <= col_count + 1;  -- update/increment column counter
         else
           next_state     <= LATCH;
+--          next_ram_addr  <= std_logic_vector(resize(((unsigned(s_led_addr)+1)*width), next_ram_addr'length));
+          --next_ram_addr  <= s_led_addr & "000000";
+          next_ram_addr  <= s_led_addr & shift_ram_addr;
+          --next_state     <= INCR_LED_ADDR;
           next_col_count <= (others => '0');  -- reset the column counter
         end if;
 
@@ -218,12 +227,14 @@ begin
       when LATCH =>
         -- display is disabled during latching
         s_lat      <= '1';              -- latch the data
-        next_state <= INCR_LED_ADDR;
+        --       next_state <= INCR_LED_ADDR;
+        next_state <= BIT_CNT;
 
       when INCR_LED_ADDR =>
         -- display is disabled during led_addr (select lines) update
         next_led_addr <= std_logic_vector(unsigned(s_led_addr) + 1);
         next_state    <= BIT_CNT;       -- restart state machine
+        --next_state    <= LATCH;       -- restart state machine
 
       when others => null;
     end case;
