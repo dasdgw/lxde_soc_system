@@ -1,10 +1,12 @@
 set sysid_base 0x10000
 set rgbmatrix_base 0x2000
-# set rgbmatrix_size 0x2000
-set rgbmatrix_size 0x800
+ set rgbmatrix_size 0x2000
+#set rgbmatrix_size 0x800
 set hps_peripherals_base 0xFF200000
 
-set rgbmatrix_cols 32
+# set rgbmatrix_cols 32
+# set rgbmatrix_cols 64
+set rgbmatrix_cols 128
 set rgbmatrix_rows 16
 #pixel width in byte
 set pixel_width 4
@@ -80,6 +82,44 @@ proc corners {} {
     put_pixel_hps 31 7
     put_pixel_hps 31 8
     put_pixel_hps 31 15
+}
+
+proc corners64 {} {
+    global mypath
+    global rgbmatrix_base
+    global rgbmatrix_size
+    global rgbmatrix_cols
+    global rgbmatrix_rows
+    global pixel_width
+
+    put_pixel_hps 32 0
+    put_pixel_hps 32 7
+    put_pixel_hps 32 8
+    put_pixel_hps 32 15
+    put_pixel_hps 63 0
+    put_pixel_hps 63 7
+    put_pixel_hps 63 8
+    put_pixel_hps 63 15
+}
+
+proc corners128 {} {
+    put_pixel_hps 64 0
+    put_pixel_hps 64 7
+    put_pixel_hps 64 8
+    put_pixel_hps 64 15
+    put_pixel_hps 95 0
+    put_pixel_hps 95 7
+    put_pixel_hps 95 8
+    put_pixel_hps 95 15
+    
+    put_pixel_hps 96 0
+    put_pixel_hps 96 7
+    put_pixel_hps 96 8
+    put_pixel_hps 96 15
+    put_pixel_hps 127 0
+    put_pixel_hps 127 7
+    put_pixel_hps 127 8
+    put_pixel_hps 127 15
 }
 
 proc put_pixel {x y} {
