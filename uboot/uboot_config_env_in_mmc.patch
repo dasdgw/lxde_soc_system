@@ -1,0 +1,99 @@
+diff -rupN build/Makefile ../quartus/build/Makefile
+--- build/Makefile	2014-01-19 00:43:42.000000000 +0100
++++ ../quartus/build/Makefile	2013-12-19 00:12:35.000000000 +0100
+@@ -13,7 +13,7 @@
+ # Generated Variables
+ #
+ 
+-PRELOADER_SETTINGS_DIR := /home/dasdgw/fpga/projects/sockit/projects/lxde_soc_system/uboot/build/../../quartus/hps_isw_handoff/soc_system_hps_0/
++PRELOADER_SETTINGS_DIR := /home/dasdgw/fpga/projects/sockit/projects/lxde_soc_system/quartus/build/../hps_isw_handoff/soc_system_hps_0/
+ 
+ TGZ := $(SOCEDS_DEST_ROOT)/host_tools/altera/preloader/uboot-socfpga.tar.gz
+ 
+Binary files build/boot-partition.img and ../quartus/build/boot-partition.img differ
+diff -rupN build/settings.bsp ../quartus/build/settings.bsp
+--- build/settings.bsp	2014-01-19 00:43:41.000000000 +0100
++++ ../quartus/build/settings.bsp	2013-12-19 00:12:34.000000000 +0100
+@@ -2,11 +2,11 @@
+ <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
+         <BspType>spl</BspType>
+         <BspVersion>default</BspVersion>
+-        <BspGeneratedTimeStamp>Jan 19, 2014 12:43:41 AM</BspGeneratedTimeStamp>
+-        <BspGeneratedUnixTimeStamp>1390088621767</BspGeneratedUnixTimeStamp>
++        <BspGeneratedTimeStamp>Dec 19, 2013 12:12:34 AM</BspGeneratedTimeStamp>
++        <BspGeneratedUnixTimeStamp>1387408354846</BspGeneratedUnixTimeStamp>
+         <BspGeneratedLocation>./</BspGeneratedLocation>
+         <BspSettingsFile>build/settings.bsp</BspSettingsFile>
+-        <HpsSettingsPath>../../quartus/hps_isw_handoff/soc_system_hps_0/</HpsSettingsPath>
++        <HpsSettingsPath>../hps_isw_handoff/soc_system_hps_0/</HpsSettingsPath>
+         <JdiFile>default</JdiFile>
+         <Cpu xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+         <SchemaVersion>1.9</SchemaVersion>
+diff -rupN build/uboot-socfpga/include/configs/socfpga_cyclone5.h ../quartus/build/uboot-socfpga/include/configs/socfpga_cyclone5.h
+--- build/uboot-socfpga/include/configs/socfpga_cyclone5.h	2013-10-24 13:20:38.000000000 +0200
++++ ../quartus/build/uboot-socfpga/include/configs/socfpga_cyclone5.h	2013-12-23 20:33:57.000000000 +0100
+@@ -34,5 +34,6 @@
+ #define CONFIG_EMAC_BASE		CONFIG_EMAC1_BASE
+ #define CONFIG_EPHY_PHY_ADDR		CONFIG_EPHY1_PHY_ADDR
+ #define CONFIG_PHY_INTERFACE_MODE	SOCFPGA_PHYSEL_ENUM_RGMII
+-
++#define CONFIG_NETCONSOLE       1
++#define CONFIG_ENV_IS_IN_MMC	1
+ #endif	/* __CONFIG_H */
+diff -rupN build/uboot-socfpga/tools/env/fw_env.c ../quartus/build/uboot-socfpga/tools/env/fw_env.c
+--- build/uboot-socfpga/tools/env/fw_env.c	2013-10-24 13:20:35.000000000 +0200
++++ ../quartus/build/uboot-socfpga/tools/env/fw_env.c	2013-12-23 20:32:03.000000000 +0100
+@@ -835,6 +835,7 @@ static int flash_write_buf (int dev, int
+ 		}
+ 
+ 		erase.start = blockstart;
++#ifndef CONFIG_ENV_IS_IN_MMC
+ 		ioctl (fd, MEMUNLOCK, &erase);
+ 
+ 		/* Dataflash does not need an explicit erase cycle */
+@@ -845,7 +846,7 @@ static int flash_write_buf (int dev, int
+ 					 strerror (errno));
+ 				return -1;
+ 			}
+-
++#endif
+ 		if (lseek (fd, blockstart, SEEK_SET) == -1) {
+ 			fprintf (stderr,
+ 				 "Seek error on %s: %s\n",
+@@ -862,9 +863,9 @@ static int flash_write_buf (int dev, int
+ 				 DEVNAME (dev), strerror (errno));
+ 			return -1;
+ 		}
+-
++#ifndef CONFIG_ENV_IS_IN_MMC
+ 		ioctl (fd, MEMLOCK, &erase);
+-
++#endif
+ 		processed  += blocklen;
+ 		block_seek = 0;
+ 		blockstart += blocklen;
+@@ -948,9 +949,10 @@ static int flash_write (int fd_current,
+ 
+ static int flash_read (int fd)
+ {
+-	struct mtd_info_user mtdinfo;
+-	int rc;
+ 
++	int rc;
++#ifndef CONFIG_ENV_IS_IN_MMC
++	struct mtd_info_user mtdinfo;
+ 	rc = ioctl (fd, MEMGETINFO, &mtdinfo);
+ 	if (rc < 0) {
+ 		perror ("Cannot get MTD information");
+@@ -968,7 +970,10 @@ static int flash_read (int fd)
+ 
+ 	rc = flash_read_buf(dev_current, fd, environment.image, CUR_ENVSIZE,
+ 			     DEVOFFSET (dev_current), mtdinfo.type);
+-
++#else
++	rc = flash_read_buf (dev_current, fd, environment.image, CONFIG_ENV_SIZE,
++			     DEVOFFSET (dev_current), 0);
++#endif
+ 	return (rc != CUR_ENVSIZE) ? -1 : 0;
+ }
+ 
