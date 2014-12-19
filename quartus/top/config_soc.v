@@ -17,5 +17,6 @@
 //`define ddr3 true
 //`define audio true
 `define vga	true
-//`define audio true
+`define audio true
 //`define HSMC_XCVR true
+//`define i2c_audio false
