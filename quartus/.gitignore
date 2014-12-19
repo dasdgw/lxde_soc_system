@@ -2,7 +2,12 @@
 *.bak
 *.qws
 db/
+ip/*/sim/*/modelsim/work/*
 incremental_db/
 greybox_tmp/
 soc_system/
 hs_err_pid*.log
+.qsys_edit
+transcript
+vsim.wlf
+vsim_stacktrace.vstf
