@@ -1,0 +1,3 @@
+[submodule "quartus/ip/rgbmatrix"]
+	path = quartus/ip/rgbmatrix
+	url = https://github.com/dasdgw/rgbmatrix.git

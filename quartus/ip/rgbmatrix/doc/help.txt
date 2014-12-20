@@ -1,5 +1,0 @@
-test relative paths for documentation purposes.
-
-tcl command 'pwd' is used to get the current directory.
-
-see rgb_matrix_hw.tcl
